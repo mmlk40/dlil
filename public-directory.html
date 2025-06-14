@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>الدليل العام للمستخدمين</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Google Fonts - Tajawal -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-radius: 22px;
+      --main-shadow: 0 8px 30px 0 #eceefd;
+      --main-gradient: linear-gradient(90deg, #fbb0f5 0%, #93d5fd 100%);
+      --btn-radius: 14px;
+      --filter-radius: 12px;
+      --avatar-radius: 50%;
+      --avatar-size: 38px;
+      --avatar-font: 1.28rem;
+      --status-radius: 11px;
+      --max-width: 950px;
+    }
+    html, body {
+      height: 100%;
+      background: #f9f9fb;
+      font-family: 'Tajawal', Tahoma, Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      box-sizing: border-box;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: var(--max-width);
+      margin: 30px auto;
+      padding: 22px 2vw;
+      background: #fff;
+      border-radius: var(--main-radius);
+      box-shadow: var(--main-shadow);
+      transition: box-shadow 0.2s;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 22px;
+      justify-content: flex-start;
+    }
+    .gradient-btn {
+      background: var(--main-gradient);
+      color: #fff;
+      border: none;
+      border-radius: var(--btn-radius);
+      padding: 10px 24px;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 8px rgba(176, 196, 222, 0.16);
+      transition: box-shadow 0.2s, transform 0.1s;
+    }
+    .gradient-btn:hover {
+      box-shadow: 0 6px 15px rgba(176, 196, 222, 0.22);
+      transform: translateY(-2px) scale(1.03);
+    }
+    .filter, .search-box {
+      background: #f4f5f7;
+      border: none;
+      border-radius: var(--filter-radius);
+      padding: 8px 12px;
+      font-size: 1rem;
+      color: #373749;
+      font-family: inherit;
+      outline: none;
+      margin-left: 3px;
+      min-width: 90px;
+      transition: box-shadow 0.15s;
+    }
+    .filter:focus, .search-box:focus {
+      box-shadow: 0 0 0 2px #aad7fd;
+    }
+    .search-box {
+      flex-grow: 1;
+      min-width: 120px;
+      max-width: 220px;
+    }
+    .status {
+      display: inline-flex;
+      align-items: center;
+      border-radius: var(--status-radius);
+      padding: 6px 15px;
+      font-size: 1rem;
+      font-weight: 700;
+      background: #e7f6ec;
+      color: #37bc74;
+      margin-left: 2px;
+      gap: 7px;
+      letter-spacing: .03em;
+      font-family: inherit;
+      transition: background 0.2s, color 0.2s;
+    }
+    .status.in-progress {
+      background: #eaf3fa;
+      color: #269af7;
+    }
+    .users-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      font-family: inherit;
+      margin-top: 0;
+    }
+    .users-table th, .users-table td {
+      text-align: center;
+      padding: 12px 6px;
+      background: #f8fafd;
+      border-radius: 15px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: background 0.18s;
+    }
+    .users-table th {
+      background: #f3f5f8;
+      font-weight: 800;
+      color: #656677;
+      letter-spacing: .01em;
+      font-size: 1.08rem;
+    }
+    .users-table tr {
+      transition: box-shadow 0.15s;
+    }
+    .users-table tr:hover td {
+      background: #f0f7ff;
+    }
+    .avatar {
+      width: var(--avatar-size);
+      height: var(--avatar-size);
+      border-radius: var(--avatar-radius);
+      background: linear-gradient(135deg,#e7ecfa 50%,#f9e3fa 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #8e8ea0;
+      font-size: var(--avatar-font);
+      margin-left: 6px;
+      border: 2px solid #f4f6fb;
+      box-shadow: 0 1px 6px #f1f3fa;
+      transition: background 0.18s;
+    }
+    .add-form {
+      display: none;
+      position: fixed;
+      top: 0; right: 0; left: 0; bottom: 0;
+      background: rgba(60, 60, 60, 0.15);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+    }
+    .add-form.active {
+      display: flex;
+    }
+    .form-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 34px 20px 23px 20px;
+      box-shadow: 0 10px 38px 0 rgba(220, 220, 240, 0.22);
+      min-width: 320px;
+      max-width: 95vw;
+      font-family: inherit;
+    }
+    .form-card label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 700;
+      font-size: 1.01rem;
+      color: #3d3d4f;
+    }
+    .form-card input, .form-card select {
+      width: 100%;
+      padding: 8px 10px;
+      margin-bottom: 15px;
+      border-radius: 9px;
+      border: 1px solid #e3e3ee;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #f9f9fd;
+      transition: border 0.2s;
+    }
+    .form-card input:focus, .form-card select:focus {
+      border-color: #b2d6fd;
+    }
+    .form-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+    .copy-btn {
+      background: #f3f5f8;
+      border: none;
+      border-radius: 8px;
+      padding: 3px 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      color: #8b8b99;
+      margin-right: 3px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .copy-btn:hover {
+      background: #e7edf3;
+      color: #2e8e5a;
+    }
+    /* Responsive Design */
+    @media (max-width: 1000px) {
+      .container {
+        max-width: 99vw;
+        margin: 16px 2vw;
+        padding: 12px 2vw;
+      }
+    }
+    @media (max-width: 600px) {
+      .container {
+        padding: 5vw 2vw;
+        border-radius: 13px;
+        margin: 7vw 0 0 0;
+      }
+      .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+      }
+      .gradient-btn {
+        width: 100%;
+        min-width: 0;
+        padding: 10px 0;
+        font-size: 1rem;
+      }
+      .filter, .search-box {
+        width: 100%;
+        min-width: 0;
+        max-width: 100%;
+        margin: 0 0 7px 0;
+        padding: 9px 10px;
+        font-size: 0.97rem;
+      }
+      .users-table th, .users-table td {
+        font-size: 0.97rem;
+        padding: 10px 2px;
+      }
+      .form-card {
+        padding: 13px 7px 10px 7px;
+        min-width: 0;
+      }
+      .avatar {
+        width: 30px;
+        height: 30px;
+        font-size: 1rem;
+      }
+    }
+    @media (max-width: 400px) {
+      .form-card { padding: 4px 1px 4px 1px; }
+      .avatar { width: 25px; height: 25px; font-size: 0.85rem;}
+      .container { padding: 2vw 1vw;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="toolbar">
+      <button class="gradient-btn" id="addUserBtn">إضافة مستخدم</button>
+      <select class="filter" id="regionFilter">
+        <option value="">كل المناطق</option>
+      </select>
+      <select class="filter" id="jobFilter">
+        <option value="">كل المهن</option>
+      </select>
+      <select class="filter" id="statusFilter">
+        <option value="">كل الحالات</option>
+        <option value="online">متصل</option>
+        <option value="in-progress">قيد العمل</option>
+      </select>
+      <input type="text" class="search-box" id="searchBox" placeholder="بحث بالاسم أو المهنة ...">
+    </div>
+    <div style="overflow-x:auto;">
+      <table class="users-table" id="usersTable">
+        <thead>
+          <tr>
+            <th>الاسم</th>
+            <th>الرقم</th>
+            <th>المنطقة</th>
+            <th>المهنة</th>
+            <th>الحالة</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dynamic rows -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- إضافة مستخدم جديد (نموذج) -->
+  <div class="add-form" id="addForm">
+    <form class="form-card" id="userForm" autocomplete="off">
+      <label for="name">الاسم</label>
+      <input type="text" id="name" required placeholder="أدخل الاسم الكامل">
+      <label for="phone">الرقم</label>
+      <input type="text" id="phone" required placeholder="أدخل رقم الجوال">
+      <label for="region">المنطقة</label>
+      <input type="text" id="region" required placeholder="أدخل المنطقة">
+      <label for="job">المهنة</label>
+      <input type="text" id="job" required placeholder="أدخل المهنة">
+      <label for="status">الحالة</label>
+      <select id="status" required>
+        <option value="online">متصل</option>
+        <option value="in-progress">قيد العمل</option>
+      </select>
+      <div class="form-actions">
+        <button type="button" class="filter" id="closeFormBtn">إلغاء</button>
+        <button type="submit" class="gradient-btn">إضافة</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // بيانات المستخدمين التجريبية مع وقت الإضافة
+    let users = [
+      {
+        name: "أحمد علي",
+        phone: "0500000000",
+        region: "الرياض",
+        job: "كهربائي",
+        status: "online",
+        createdAt: Date.now() - 2 * 24 * 60 * 60 * 1000 // قبل يومين
+      },
+      {
+        name: "سارة محمد",
+        phone: "0555555555",
+        region: "جدة",
+        job: "مبرمجة",
+        status: "in-progress",
+        createdAt: Date.now() - 6 * 24 * 60 * 60 * 1000 // قبل 6 أيام
+      }
+    ];
+
+    // حذف المستخدمين تلقائياً إذا تجاوزوا أسبوع (7 أيام)
+    function autoDeleteOldUsers() {
+      const now = Date.now();
+      const oneWeek = 7 * 24 * 60 * 60 * 1000;
+      let changed = false;
+      users = users.filter(user => {
+        if (!user.createdAt) return true;
+        let isOld = (now - user.createdAt) <= oneWeek;
+        if (!isOld) changed = true;
+        return isOld;
+      });
+      if (changed) renderUsers();
+    }
+
+    // فحص الحذف كل دقيقة
+    setInterval(autoDeleteOldUsers, 60 * 1000);
+    // عند تحميل الصفحة
+    autoDeleteOldUsers();
+
+    // عناصر الواجهة
+    const usersTable = document.getElementById('usersTable').getElementsByTagName('tbody')[0];
+    const regionFilter = document.getElementById('regionFilter');
+    const jobFilter = document.getElementById('jobFilter');
+    const statusFilter = document.getElementById('statusFilter');
+    const searchBox = document.getElementById('searchBox');
+
+    // إضافة بيانات المستخدمين للجدول
+    function renderUsers() {
+      usersTable.innerHTML = '';
+      let regionSet = new Set();
+      let jobSet = new Set();
+      let valRegion = regionFilter.value;
+      let valJob = jobFilter.value;
+      let valStatus = statusFilter.value;
+      let valSearch = searchBox.value.trim();
+
+      users.forEach(user => {
+        regionSet.add(user.region);
+        jobSet.add(user.job);
+      });
+
+      // بناء خيارات الفلاتر تلقائياً
+      regionFilter.innerHTML = '<option value="">كل المناطق</option>';
+      [...regionSet].forEach(r => {
+        regionFilter.innerHTML += `<option value="${r}">${r}</option>`;
+      });
+      jobFilter.innerHTML = '<option value="">كل المهن</option>';
+      [...jobSet].forEach(j => {
+        jobFilter.innerHTML += `<option value="${j}">${j}</option>`;
+      });
+
+      let filtered = users.filter(user =>
+        (valRegion === "" || user.region === valRegion) &&
+        (valJob === "" || user.job === valJob) &&
+        (valStatus === "" || user.status === valStatus) &&
+        (
+          valSearch === "" ||
+          user.name.includes(valSearch) ||
+          user.job.includes(valSearch) ||
+          user.region.includes(valSearch)
+        )
+      );
+
+      if (filtered.length === 0) {
+        let row = document.createElement('tr');
+        row.innerHTML = `<td colspan="5" style="color:#aaa;padding:28px 0;font-size:1.1rem;">لا يوجد نتائج</td>`;
+        usersTable.appendChild(row);
+        return;
+      }
+
+      filtered.forEach(user => {
+        let row = document.createElement('tr');
+        row.innerHTML = `
+          <td>
+            <span class="avatar">${user.name.charAt(0)}</span>
+            ${user.name}
+          </td>
+          <td>
+            <span>${user.phone}</span>
+            <button class="copy-btn" title="نسخ الرقم" onclick="navigator.clipboard.writeText('${user.phone}')">نسخ</button>
+          </td>
+          <td>${user.region}</td>
+          <td>${user.job}</td>
+          <td>
+            <span class="status ${user.status === 'in-progress' ? 'in-progress' : ''}">
+              ${user.status === 'online' ? '● متصل' : '○ قيد العمل'}
+            </span>
+          </td>
+        `;
+        usersTable.appendChild(row);
+      });
+    }
+
+    // الفلاتر والتحديث
+    regionFilter.addEventListener('change', renderUsers);
+    jobFilter.addEventListener('change', renderUsers);
+    statusFilter.addEventListener('change', renderUsers);
+    searchBox.addEventListener('input', renderUsers);
+
+    // إضافة مستخدم جديد
+    document.getElementById('addUserBtn').onclick = () => {
+      document.getElementById('addForm').classList.add('active');
+      setTimeout(() => document.getElementById('name').focus(), 120);
+    };
+    document.getElementById('closeFormBtn').onclick = () => {
+      document.getElementById('addForm').classList.remove('active');
+      document.getElementById('userForm').reset();
+    };
+    document.getElementById('userForm').onsubmit = function(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const region = document.getElementById('region').value.trim();
+      const job = document.getElementById('job').value.trim();
+      const status = document.getElementById('status').value;
+      if(name && phone && region && job && status){
+        users.push({ 
+          name, 
+          phone, 
+          region, 
+          job, 
+          status, 
+          createdAt: Date.now() 
+        });
+        renderUsers();
+        document.getElementById('addForm').classList.remove('active');
+        document.getElementById('userForm').reset();
+      }
+    };
+
+    // تحديث تلقائي عند العودة للصفحة
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden) { autoDeleteOldUsers(); renderUsers(); }
+    });
+
+    // أول تحميل
+    renderUsers();
+
+    // تحسين تجربة الضغط خارج نافذة النموذج للإغلاق على الجوال
+    document.getElementById('addForm').addEventListener('click', function(e){
+      if(e.target === this) {
+        this.classList.remove('active');
+        document.getElementById('userForm').reset();
+      }
+    });
+  </script>
+</body>
+</html>
